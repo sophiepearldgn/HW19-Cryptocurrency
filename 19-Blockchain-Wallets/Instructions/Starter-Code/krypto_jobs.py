@@ -277,11 +277,46 @@ st.sidebar.markdown("## Total Wage in Ether")
 # Calculate total `wage` for the candidate by multiplying the candidate’s hourly
 # rate from the candidate database (`candidate_database[person][3]`) by the
 # value of the `hours` variable
-# YOUR CODE HERE
+
+# Access the candidate's hourly rate from the database
+candidate_hourly_rate = candidate_database[person][3]  
+
+# Specify the number of hours the candidate worked
+hours = 3 
+
+# Calculate the wage
+wage = candidate_hourly_rate * hours
 
 # @TODO
 # Write the `wage` calculation to the Streamlit sidebar
-# YOUR CODE HERE
+from crypto_wallet import generate_account, get_balance
+
+# Streamlit sidebar section
+st.sidebar.title("KryptoJobs2Go Customer Interface")
+
+# Create the account using generate_account
+account = generate_account()
+
+# Display the account details
+st.sidebar.write(f"Customer Ethereum Address: {account['address']}")
+st.sidebar.write(f"Mnemonic Seed Phrase: {account['mnemonic']}")
+
+# Get and display the customer's account balance
+balance = get_balance(account['address'])
+st.sidebar.write(f"Customer's Account Balance: {balance} ETH")
+
+# User selects a fintech professional and inputs the hours hired
+selected_candidate = "John Doe"  # Replace with the selected candidate's name
+hours_hired = 10  # Replace with the number of hours hired
+
+# Access the candidate's hourly rate from the database
+candidate_hourly_rate = candidate_database[selected_candidate][3]
+
+# Calculate the wage
+wage = candidate_hourly_rate * hours_hired
+
+# Display the calculated wage in the sidebar
+st.sidebar.write(f"Calculated Wage for {selected_candidate}: {wage} ETH")
 
 ##########################################
 # Step 2 - Part 2:
@@ -308,8 +343,7 @@ if st.sidebar.button("Send Transaction"):
     # Call the `send_transaction` function and pass it 3 parameters:
     # Your `account`, the `candidate_address`, and the `wage` as parameters
     # Save the returned transaction hash as a variable named `transaction_hash`
-    # YOUR CODE HERE
-
+transaction_hash = send_transaction(account, candidate_address, wage)
     # Markdown for the transaction hash
     st.sidebar.markdown("#### Validated Transaction Hash")
 
